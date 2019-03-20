@@ -64,7 +64,7 @@ func (c *OutputConfig) SetupDir() error {
 }
 
 func (c *OutputConfig) TempAACDir() (string, error) {
-	aacDir, err := ioutil.TempDir(c.DirFullPath, "aac")
+	aacDir, err := ioutil.TempDir(c.DirFullPath, "m4a")
 	if err != nil {
 		return "", err
 	}

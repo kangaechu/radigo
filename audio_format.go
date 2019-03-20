@@ -1,6 +1,6 @@
 package radigo
 
 const (
-	AudioFormatAAC = "aac"
+	AudioFormatAAC = "m4a"
 	AudioFormatMP3 = "mp3"
 )
