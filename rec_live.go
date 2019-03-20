@@ -12,10 +12,10 @@ import (
 	"time"
 
 	"github.com/briandowns/spinner"
+	"github.com/kangaechu/radigo/internal"
 	"github.com/mitchellh/cli"
 	"github.com/olekukonko/tablewriter"
 	"github.com/yyoshiki41/go-radiko"
-	"github.com/yyoshiki41/radigo/internal"
 )
 
 type recLiveCommand struct {

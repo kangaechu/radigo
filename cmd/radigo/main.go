@@ -6,8 +6,8 @@ import (
 	"os"
 	"runtime"
 
+	"github.com/kangaechu/radigo"
 	"github.com/mitchellh/cli"
-	"github.com/yyoshiki41/radigo"
 )
 
 func main() {
