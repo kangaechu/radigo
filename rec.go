@@ -134,6 +134,7 @@ func (c *recCommand) Run(args []string) int {
 	}
 
 	tag := CreateTagFromPg(pg, stationID)
+	output.FileBaseName = tag.toFileName()
 	metadata := tag.toFfMpegOption()
 	concatedFile, err := ConcatAACFilesFromList(ctx, aacDir, metadata)
 	if err != nil {

@@ -23,9 +23,13 @@ func CreateTagFromPg(pg *radiko.Prog, station string) Tag {
 
 func (t Tag) toFfMpegOption() []string {
 	metadata := []string{
-		"-metadata", "title=" + t.Title + "_" + t.PubDate.Format("2006年01月02日"),
+		"-metadata", "title=" + t.Title + " " + t.PubDate.Format("2006年01月02日"),
 		"-metadata", "genre=Radio",
 		"-metadata", "artist=" + t.Artist,
 	}
 	return metadata
+}
+
+func (t Tag) toFileName() string {
+	return t.Title + " " + t.PubDate.Format("2006年01月02日")
 }
