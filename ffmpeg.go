@@ -79,7 +79,7 @@ func ConvertAACtoMP3(ctx context.Context, input, output string) error {
 }
 
 // ConcatAACFilesFromList concatenates files from the list of resources.
-func ConcatAACFilesFromList(ctx context.Context, resourcesDir string) (string, error) {
+func ConcatAACFilesFromList(ctx context.Context, resourcesDir string, metadata []string) (string, error) {
 	files, err := ioutil.ReadDir(resourcesDir)
 	if err != nil {
 		return "", err
@@ -99,7 +99,7 @@ func ConcatAACFilesFromList(ctx context.Context, resourcesDir string) (string, e
 	}
 
 	concatedFile := filepath.Join(resourcesDir, "concated.m4a")
-	if err := ConcatAACFiles(ctx, listFile.Name(), concatedFile); err != nil {
+	if err := ConcatAACFiles(ctx, listFile.Name(), concatedFile, metadata); err != nil {
 		return "", err
 	}
 
@@ -107,7 +107,7 @@ func ConcatAACFilesFromList(ctx context.Context, resourcesDir string) (string, e
 }
 
 // ConcatAACFiles concatenate files of the same type.
-func ConcatAACFiles(ctx context.Context, input, output string) error {
+func ConcatAACFiles(ctx context.Context, input, output string, metadata []string) error {
 	f, err := newFfmpeg(ctx)
 	if err != nil {
 		return err
@@ -118,6 +118,7 @@ func ConcatAACFiles(ctx context.Context, input, output string) error {
 		"-safe", "0",
 	)
 	f.setInput(input)
+	f.setArgs(metadata...)
 	f.setArgs("-c", "copy")
 	// TODO: Collect log
 	return f.run(output)

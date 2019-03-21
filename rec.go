@@ -92,20 +92,18 @@ func (c *recCommand) Run(args []string) int {
 		return 1
 	}
 
-	go func() {
-		pg, err := client.GetProgramByStartTime(ctx, stationID, startTime)
-		if err != nil {
-			ctxCancel()
-			c.ui.Error(fmt.Sprintf(
-				"Failed to get the program: %s", err))
-		}
+	pg, err := client.GetProgramByStartTime(ctx, stationID, startTime)
+	if err != nil {
+		ctxCancel()
+		c.ui.Error(fmt.Sprintf(
+			"Failed to get the program: %s", err))
+	}
 
-		table := tablewriter.NewWriter(os.Stdout)
-		table.SetHeader([]string{"STATION ID", "TITLE"})
-		table.Append([]string{stationID, pg.Title})
-		fmt.Print("\n")
-		table.Render()
-	}()
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"STATION ID", "TITLE"})
+	table.Append([]string{stationID, pg.Title})
+	fmt.Print("\n")
+	table.Render()
 
 	uri, err := client.TimeshiftPlaylistM3U8(ctx, stationID, startTime)
 	if err != nil {
@@ -135,7 +133,9 @@ func (c *recCommand) Run(args []string) int {
 		return 1
 	}
 
-	concatedFile, err := ConcatAACFilesFromList(ctx, aacDir)
+	tag := CreateTagFromPg(pg, stationID)
+	metadata := tag.toFfMpegOption()
+	concatedFile, err := ConcatAACFilesFromList(ctx, aacDir, metadata)
 	if err != nil {
 		c.ui.Error(fmt.Sprintf(
 			"Failed to concat aac files: %s", err))
