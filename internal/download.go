@@ -44,7 +44,7 @@ func BulkDownload(list []string, output string) error {
 	wg.Wait()
 
 	if errFlag {
-		return errors.New("Lack of aac files")
+		return errors.New("Lack of m4a files")
 	}
 	return nil
 }

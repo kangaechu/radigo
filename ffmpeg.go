@@ -60,8 +60,8 @@ func (f *ffmpeg) stderrPipe() (io.ReadCloser, error) {
 	return f.StderrPipe()
 }
 
-// ConvertAACtoMP3 converts an aac file to a mp3 file.
-func ConvertAACtoMP3(ctx context.Context, input, output string) error {
+// ConvertM4AtoMP3 converts an m4a file to a mp3 file.
+func ConvertM4AtoMP3(ctx context.Context, input, output string) error {
 	f, err := newFfmpeg(ctx)
 	if err != nil {
 		return err
@@ -78,14 +78,14 @@ func ConvertAACtoMP3(ctx context.Context, input, output string) error {
 	return f.run(output)
 }
 
-// ConcatAACFilesFromList concatenates files from the list of resources.
-func ConcatAACFilesFromList(ctx context.Context, resourcesDir string, metadata []string) (string, error) {
+// ConcatM4AFilesFromList concatenates files from the list of resources.
+func ConcatM4AFilesFromList(ctx context.Context, resourcesDir string, metadata []string) (string, error) {
 	files, err := ioutil.ReadDir(resourcesDir)
 	if err != nil {
 		return "", err
 	}
 
-	listFile, err := ioutil.TempFile(resourcesDir, "aac_resources")
+	listFile, err := ioutil.TempFile(resourcesDir, "m4a_resources")
 	if err != nil {
 		return "", err
 	}
@@ -99,15 +99,15 @@ func ConcatAACFilesFromList(ctx context.Context, resourcesDir string, metadata [
 	}
 
 	concatedFile := filepath.Join(resourcesDir, "concated.m4a")
-	if err := ConcatAACFiles(ctx, listFile.Name(), concatedFile, metadata); err != nil {
+	if err := ConcatM4AFiles(ctx, listFile.Name(), concatedFile, metadata); err != nil {
 		return "", err
 	}
 
 	return concatedFile, nil
 }
 
-// ConcatAACFiles concatenate files of the same type.
-func ConcatAACFiles(ctx context.Context, input, output string, metadata []string) error {
+// ConcatM4AFiles concatenate files of the same type.
+func ConcatM4AFiles(ctx context.Context, input, output string, metadata []string) error {
 	f, err := newFfmpeg(ctx)
 	if err != nil {
 		return err

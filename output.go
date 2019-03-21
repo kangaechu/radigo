@@ -16,7 +16,7 @@ const (
 type OutputConfig struct {
 	DirFullPath  string
 	FileBaseName string // base name of the file
-	FileFormat   string // aac, mp3
+	FileFormat   string // m4a, mp3
 }
 
 func NewOutputConfig(fileBaseName, fileFormat string) (*OutputConfig, error) {
@@ -63,13 +63,13 @@ func (c *OutputConfig) SetupDir() error {
 	return nil
 }
 
-func (c *OutputConfig) TempAACDir() (string, error) {
-	aacDir, err := ioutil.TempDir(c.DirFullPath, "m4a")
+func (c *OutputConfig) TempM4ADir() (string, error) {
+	m4aDir, err := ioutil.TempDir(c.DirFullPath, "m4a")
 	if err != nil {
 		return "", err
 	}
 
-	return aacDir, nil
+	return m4aDir, nil
 }
 
 func (c *OutputConfig) AudioFormat() string {

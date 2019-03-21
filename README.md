@@ -36,13 +36,13 @@ Now downloading..
 | LFR        |　　  オードリーのオールナイトニッポン |
 +------------+---------------------------------+
 | Completed!
-/output/20180401010000-LFR.aac
+/output/20180401010000-LFR.m4a
 ```
 
 Open the output file created by the container on your local machine.
 
 ```bash
-$ open $PWD/output/20180401010000-LFR.aac
+$ open $PWD/output/20180401010000-LFR.m4a
 ```
 
 ### Build the binary from source
@@ -128,7 +128,7 @@ Now downloading..
 | LFR        |　　  オードリーのオールナイトニッポン |
 +------------+---------------------------------+
 Completed!
-/tmp/output/20161126010000-LFR.aac
+/tmp/output/20161126010000-LFR.m4a
 ```
 
 ### ■ rec-live
@@ -144,7 +144,7 @@ Now downloading..
 | LFR        |          3600 |
 +------------+---------------+
 Completed!
-/tmp/output/20161205083547-LFR.aac
+/tmp/output/20161205083547-LFR.m4a
 ```
 
 ### ■ browse / browse-live
@@ -185,7 +185,7 @@ $ radigo rec -a=JP13 -id=LFR -s=20161126010000
 
 ## Known Issues
 
-### `ERROR: Failed to concat aac files`
+### `ERROR: Failed to concat m4a files`
 
 (caused by the limitation of file descriptors maybe.)
 
@@ -198,7 +198,7 @@ $ ulimit -n 16384
 ## Resources
 
 - [Japanese](http://qiita.com/yyoshiki41/items/f81442d7dc2d0ddcf15b)
-- [Listen on itunes](http://esola.co/posts/2017/aac-profile/)
+- [Listen on itunes](http://esola.co/posts/2017/m4a-profile/)
 
 ## License 
 

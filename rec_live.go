@@ -32,8 +32,8 @@ func (c *recLiveCommand) Run(args []string) int {
 	f.StringVar(&duration, "t", "", "duration")
 	f.StringVar(&areaID, "area", "", "area")
 	f.StringVar(&areaID, "a", "", "area")
-	f.StringVar(&fileType, "output", AudioFormatAAC, "output")
-	f.StringVar(&fileType, "o", AudioFormatAAC, "output")
+	f.StringVar(&fileType, "output", AudioFormatM4A, "output")
+	f.StringVar(&fileType, "o", AudioFormatM4A, "output")
 	f.BoolVar(&verbose, "verbose", false, "verbose")
 	f.BoolVar(&verbose, "v", false, "verbose")
 	f.Usage = func() { c.ui.Error(c.Help()) }
@@ -153,7 +153,7 @@ func (c *recLiveCommand) Run(args []string) int {
 
 	ffmpegArgs := []string{"-vn", "-acodec"}
 	switch fileType {
-	case AudioFormatAAC:
+	case AudioFormatM4A:
 		ffmpegArgs = append(ffmpegArgs, "copy")
 	case AudioFormatMP3:
 		ffmpegArgs = append(ffmpegArgs,
@@ -240,7 +240,7 @@ Options:
   -id=name                 Station id
   -time,t=3600             Time duration (sec)
   -area,a=name             Area id
-  -output,o=aac            Output file type (aac, mp3)
+  -output,o=m4a            Output file type (m4a, mp3)
   -verbose,v               Verbose mode
 `)
 }

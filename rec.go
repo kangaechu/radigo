@@ -28,8 +28,8 @@ func (c *recCommand) Run(args []string) int {
 	f.StringVar(&start, "s", "", "start")
 	f.StringVar(&areaID, "area", "", "area")
 	f.StringVar(&areaID, "a", "", "area")
-	f.StringVar(&fileType, "output", AudioFormatAAC, "output")
-	f.StringVar(&fileType, "o", AudioFormatAAC, "output")
+	f.StringVar(&fileType, "output", AudioFormatM4A, "output")
+	f.StringVar(&fileType, "o", AudioFormatM4A, "output")
 	f.Usage = func() { c.ui.Error(c.Help()) }
 	if err := f.Parse(args); err != nil {
 		return 1
@@ -45,7 +45,7 @@ func (c *recCommand) Run(args []string) int {
 			"Invalid start time format '%s': %s", start, err))
 		return 1
 	}
-	if fileType != AudioFormatAAC && fileType != AudioFormatMP3 {
+	if fileType != AudioFormatM4A && fileType != AudioFormatMP3 {
 		c.ui.Error(fmt.Sprintf(
 			"Unsupported audio format: %s", fileType))
 		return 1
@@ -119,36 +119,36 @@ func (c *recCommand) Run(args []string) int {
 		return 1
 	}
 
-	aacDir, err := output.TempAACDir()
+	m4aDir, err := output.TempM4ADir()
 	if err != nil {
 		c.ui.Error(fmt.Sprintf(
-			"Failed to create the aac dir: %s", err))
+			"Failed to create the m4a dir: %s", err))
 		return 1
 	}
-	defer os.RemoveAll(aacDir) // clean up
+	defer os.RemoveAll(m4aDir) // clean up
 
-	if err := internal.BulkDownload(chunklist, aacDir); err != nil {
+	if err := internal.BulkDownload(chunklist, m4aDir); err != nil {
 		c.ui.Error(fmt.Sprintf(
-			"Failed to download aac files: %s", err))
+			"Failed to download m4a files: %s", err))
 		return 1
 	}
 
 	tag := CreateTagFromPg(pg, stationID)
 	output.FileBaseName = tag.toFileName()
 	metadata := tag.toFfMpegOption()
-	concatedFile, err := ConcatAACFilesFromList(ctx, aacDir, metadata)
+	concatedFile, err := ConcatM4AFilesFromList(ctx, m4aDir, metadata)
 	if err != nil {
 		c.ui.Error(fmt.Sprintf(
-			"Failed to concat aac files: %s", err))
+			"Failed to concat m4a files: %s", err))
 		return 1
 	}
 
 	var retErr error
 	switch output.AudioFormat() {
-	case AudioFormatAAC:
+	case AudioFormatM4A:
 		retErr = os.Rename(concatedFile, output.AbsPath())
 	case AudioFormatMP3:
-		retErr = ConvertAACtoMP3(ctx, concatedFile, output.AbsPath())
+		retErr = ConvertM4AtoMP3(ctx, concatedFile, output.AbsPath())
 	}
 	if retErr != nil {
 		c.ui.Error(fmt.Sprintf(
@@ -172,6 +172,6 @@ Options:
   -id=name                 Station id
   -start,s=201610101000    Start time
   -area,a=name             Area id
-  -output,o=aac            Output file type (aac, mp3)
+  -output,o=m4a            Output file type (m4a, mp3)
 `)
 }
