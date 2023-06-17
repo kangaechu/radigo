@@ -1,0 +1,26 @@
+name: test
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+    - github-actions
+  pull_request:
+    branches:
+    - github-actions
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-go@v4
+      with:
+        go-version-file: '.go-version'
+    - name: test
+      run: go test ./...
