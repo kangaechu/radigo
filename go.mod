@@ -3,7 +3,7 @@ module github.com/yyoshiki41/radigo
 go 1.19
 
 require (
-	github.com/briandowns/spinner v1.19.0
+	github.com/briandowns/spinner v1.23.0
 	github.com/mitchellh/cli v1.1.4
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/yyoshiki41/go-radiko v0.9.0
@@ -33,4 +33,5 @@ require (
 	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/term v0.5.0 // indirect
 )
