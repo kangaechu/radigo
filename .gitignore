@@ -35,3 +35,4 @@ profile.out
 .envrc
 # archives
 archives/*
+dist/

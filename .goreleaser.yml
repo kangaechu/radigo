@@ -2,6 +2,7 @@
 # Build customization
 builds:
   - binary: radigo
+    main: ./cmd/radigo/
     goos:
       - darwin
       - linux
