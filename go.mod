@@ -3,7 +3,7 @@ module github.com/yyoshiki41/radigo
 go 1.22.2
 
 require (
-	github.com/briandowns/spinner v1.23.0
+	github.com/briandowns/spinner v1.23.1
 	github.com/mitchellh/cli v1.1.5
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/yyoshiki41/go-radiko v0.9.0
