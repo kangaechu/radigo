@@ -1,4 +1,4 @@
-FROM golang:1.22.2-alpine AS build
+FROM golang:1.24.3-alpine AS build
 
 LABEL maintainer="yyoshiki41@gmail.com"
 

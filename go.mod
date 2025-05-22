@@ -1,6 +1,6 @@
 module github.com/yyoshiki41/radigo
 
-go 1.23.0
+go 1.24.3
 
 require (
 	github.com/briandowns/spinner v1.23.2
