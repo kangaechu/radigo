@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/yyoshiki41/radigo/internal"
 	"os"
 	"strings"
 	"time"
@@ -12,7 +13,6 @@ import (
 	"github.com/mitchellh/cli"
 	"github.com/olekukonko/tablewriter"
 	"github.com/yyoshiki41/go-radiko"
-	"github.com/kangaechu/radigo/internal"
 )
 
 type recCommand struct {
@@ -101,10 +101,18 @@ func (c *recCommand) Run(args []string) int {
 		}
 
 		table := tablewriter.NewWriter(os.Stdout)
-		table.SetHeader([]string{"STATION ID", "TITLE"})
-		table.Append([]string{stationID, pg.Title})
+		table.Header([]string{"STATION ID", "TITLE"})
+		err = table.Append([]string{stationID, pg.Title})
+		if err != nil {
+			c.ui.Error(fmt.Sprintf(
+				"Failed to append table: %s", err))
+		}
 		fmt.Print("\n")
-		table.Render()
+		err = table.Render()
+		if err != nil {
+			c.ui.Error(fmt.Sprintf(
+				"Failed to render table: %s", err))
+		}
 	}()
 
 	uri, err := client.TimeshiftPlaylistM3U8(ctx, stationID, startTime)
@@ -127,7 +135,13 @@ func (c *recCommand) Run(args []string) int {
 			"Failed to create the aac dir: %s", err))
 		return 1
 	}
-	defer os.RemoveAll(aacDir) // clean up
+	defer func(path string) {
+		err := os.RemoveAll(path)
+		if err != nil {
+			c.ui.Error(fmt.Sprintf(
+				"Failed to remove the aac dir: %s", err))
+		}
+	}(aacDir) // clean up
 
 	if err := internal.BulkDownload(chunklist, aacDir); err != nil {
 		c.ui.Error(fmt.Sprintf(

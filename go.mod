@@ -1,22 +1,58 @@
 module github.com/yyoshiki41/radigo
 
-go 1.15
+go 1.24.3
 
 require (
-	github.com/armon/go-radix v0.0.0-20160115234725-4239b77079c7 // indirect
-	github.com/bgentry/speakeasy v0.1.0 // indirect
-	github.com/briandowns/spinner v0.0.0-20161121172928-cd65e8bd7da2
-	github.com/fatih/color v1.1.1-0.20161025120501-bf82308e8c85 // indirect
-	github.com/grafov/m3u8 v0.6.2-0.20161102215704-4c69ce4c839a // indirect
-	github.com/hashicorp/errwrap v0.0.0-20141028054710-7554cd9344ce // indirect
-	github.com/hashicorp/go-multierror v0.0.0-20171204182908-b7773ae21874 // indirect
-	github.com/mattn/go-colorable v0.0.7 // indirect
-	github.com/mattn/go-isatty v0.0.2 // indirect
-	github.com/mattn/go-runewidth v0.0.2-0.20161012013512-737072b4e32b // indirect
-	github.com/mitchellh/cli v0.0.0-20180406011036-c54c85e9bd49
-	github.com/olekukonko/tablewriter v0.0.0-20160923125401-bdcc175572fd
-	github.com/posener/complete v1.1.1 // indirect
-	github.com/yyoshiki41/go-radiko v0.7.0
-	golang.org/x/net v0.0.0-20170517171515-513929065c19 // indirect
-	golang.org/x/sys v0.0.0-20170721163517-c4489faa6e5a // indirect
+	github.com/briandowns/spinner v1.23.2
+	github.com/kangaechu/radigo v1.0.1
+	github.com/mitchellh/cli v1.1.5
+	github.com/olekukonko/tablewriter v1.0.6
+	github.com/yyoshiki41/go-radiko v0.9.0
+)
+
+require (
+	dario.cat/mergo v1.0.2 // indirect
+	github.com/Masterminds/goutils v1.1.1 // indirect
+	github.com/Masterminds/semver/v3 v3.3.1 // indirect
+	github.com/Masterminds/sprig/v3 v3.3.0 // indirect
+	github.com/armon/go-radix v1.0.0 // indirect
+	github.com/bgentry/speakeasy v0.2.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/fatih/color v1.18.0 // indirect
+	github.com/google/go-cmp v0.6.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
+	github.com/grafov/m3u8 v0.12.1 // indirect
+	github.com/hashicorp/errwrap v1.1.0 // indirect
+	github.com/hashicorp/go-multierror v1.1.1 // indirect
+	github.com/huandu/xstrings v1.5.0 // indirect
+	github.com/imdario/mergo v0.3.16 // indirect
+	github.com/mattn/go-colorable v0.1.14 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/mattn/go-runewidth v0.0.16 // indirect
+	github.com/mitchellh/copystructure v1.2.0 // indirect
+	github.com/mitchellh/reflectwalk v1.0.2 // indirect
+	github.com/olekukonko/errors v1.1.0 // indirect
+	github.com/olekukonko/ll v0.0.8 // indirect
+	github.com/olekukonko/ts v0.0.0-20171002115256-78ecb04241c0 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/posener/complete v1.2.3 // indirect
+	github.com/rivo/uniseg v0.4.7 // indirect
+	github.com/shopspring/decimal v1.4.0 // indirect
+	github.com/spf13/cast v1.8.0 // indirect
+	github.com/stretchr/objx v0.1.0 // indirect
+	github.com/stretchr/testify v1.6.1 // indirect
+	github.com/yuin/goldmark v1.4.13 // indirect
+	golang.org/x/crypto v0.38.0 // indirect
+	golang.org/x/mod v0.17.0 // indirect
+	golang.org/x/net v0.40.0 // indirect
+	golang.org/x/sync v0.14.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
+	golang.org/x/telemetry v0.0.0-20240228155512-f48c80bd79b2 // indirect
+	golang.org/x/term v0.32.0 // indirect
+	golang.org/x/text v0.25.0 // indirect
+	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
+	golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7 // indirect
+	gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 // indirect
+	gopkg.in/yaml.v2 v2.3.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

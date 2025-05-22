@@ -46,11 +46,21 @@ func (c *areaCommand) Run(args []string) int {
 
 	c.ui.Output(fmt.Sprintf(" Area ID: %s", client.AreaID()))
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Name", "Station ID"})
+	table.Header([]string{"Name", "Station ID"})
 	for _, s := range stations {
-		table.Append([]string{s.Name, s.ID})
+		err := table.Append([]string{s.Name, s.ID})
+		if err != nil {
+			c.ui.Error(fmt.Sprintf(
+				"Failed to append to table: %s", err))
+			return 1
+		}
 	}
-	table.Render()
+	err = table.Render()
+	if err != nil {
+		c.ui.Error(fmt.Sprintf(
+			"Failed to render table: %s", err))
+		return 1
+	}
 
 	return 0
 }
