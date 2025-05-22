@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -71,9 +70,19 @@ func (c *recLiveCommand) Run(args []string) int {
 
 	c.ui.Output("Now downloading.. ")
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Station ID", "Duration(sec)"})
-	table.Append([]string{stationID, duration})
-	table.Render()
+	table.Header([]string{"Station ID", "Duration(sec)"})
+	err = table.Append([]string{stationID, duration})
+	if err != nil {
+		c.ui.Error(fmt.Sprintf(
+			"Failed to append table: %s", err))
+		return 1
+	}
+	err = table.Render()
+	if err != nil {
+		c.ui.Error(fmt.Sprintf(
+			"Failed to render table: %s", err))
+		return 1
+	}
 
 	spin := spinner.New(spinner.CharSets[9], time.Second)
 	spin.Start()
@@ -179,7 +188,12 @@ func (c *recLiveCommand) Run(args []string) int {
 
 	err = ffmpegCmd.start(output.AbsPath())
 	if err != nil {
-		ffmpegStdin.Close()
+		err := ffmpegStdin.Close()
+		if err != nil {
+			c.ui.Error(fmt.Sprintf(
+				"Failed to close ffmpeg stdin: %s", err))
+			return 1
+		}
 
 		c.ui.Error(fmt.Sprintf(
 			"Failed to start ffmpeg command: %s", err))
@@ -196,7 +210,13 @@ func (c *recLiveCommand) Run(args []string) int {
 	}()
 
 	go func() {
-		defer ffmpegStdin.Close()
+		defer func(ffmpegStdin io.WriteCloser) {
+			err := ffmpegStdin.Close()
+			if err != nil {
+				c.ui.Error(fmt.Sprintf(
+					"Failed to close ffmpeg stdin: %s", err))
+			}
+		}(ffmpegStdin)
 
 		err := rtmpdumpCmd.Run()
 		if err != nil {
@@ -207,7 +227,7 @@ func (c *recLiveCommand) Run(args []string) int {
 	}()
 
 	if verbose {
-		b, err := ioutil.ReadAll(ffmpegStderr)
+		b, err := io.ReadAll(ffmpegStderr)
 		if err != nil {
 			c.ui.Warn(fmt.Sprintf(
 				"Failed to read ffmpeg Stderr: %s", err))
