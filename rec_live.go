@@ -67,9 +67,19 @@ func (c *recLiveCommand) Run(args []string) int {
 
 	c.ui.Output("Now downloading.. ")
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Station ID", "Duration(sec)"})
-	table.Append([]string{stationID, duration})
-	table.Render()
+	table.Header([]string{"Station ID", "Duration(sec)"})
+	err = table.Append([]string{stationID, duration})
+	if err != nil {
+		c.ui.Error(fmt.Sprintf(
+			"Failed to append to table: %s", err))
+		return 1
+	}
+	err = table.Render()
+	if err != nil {
+		c.ui.Error(fmt.Sprintf(
+			"Failed to render table: %s", err))
+		return 0
+	}
 
 	spin := spinner.New(spinner.CharSets[9], time.Second)
 	spin.Start()

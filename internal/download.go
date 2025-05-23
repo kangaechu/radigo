@@ -44,17 +44,23 @@ func BulkDownload(list []string, output string) error {
 	wg.Wait()
 
 	if errFlag {
-		return errors.New("Lack of aac files")
+		return errors.New("lack of aac files")
 	}
 	return nil
 }
 
 func download(link, output string) error {
+	// #nosec G107 -- trusted source, links are controlled by the application logic
 	resp, err := http.Get(link)
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Printf("Failed to close response body: %s", err)
+		}
+	}(resp.Body)
 
 	_, fileName := filepath.Split(link)
 	file, err := os.Create(filepath.Join(output, fileName))

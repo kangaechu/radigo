@@ -6,7 +6,7 @@ import (
 	"github.com/mitchellh/cli"
 )
 
-var Ui cli.Ui
+var UI cli.Ui
 
 const (
 	infoPrefix  = "INFO: "
@@ -15,7 +15,7 @@ const (
 )
 
 func init() {
-	Ui = &cli.PrefixedUi{
+	UI = &cli.PrefixedUi{
 		InfoPrefix:  infoPrefix,
 		WarnPrefix:  warnPrefix,
 		ErrorPrefix: errorPrefix,
@@ -27,30 +27,30 @@ func init() {
 
 func AreaCommandFactory() (cli.Command, error) {
 	return &areaCommand{
-		ui: Ui,
+		ui: UI,
 	}, nil
 }
 
 func RecCommandFactory() (cli.Command, error) {
 	return &recCommand{
-		ui: Ui,
+		ui: UI,
 	}, nil
 }
 
 func RecLiveCommandFactory() (cli.Command, error) {
 	return &recLiveCommand{
-		ui: Ui,
+		ui: UI,
 	}, nil
 }
 
 func BrowseCommandFactory() (cli.Command, error) {
 	return &browseCommand{
-		ui: Ui,
+		ui: UI,
 	}, nil
 }
 
 func BrowseLiveCommandFactory() (cli.Command, error) {
 	return &browseLiveCommand{
-		ui: Ui,
+		ui: UI,
 	}, nil
 }
