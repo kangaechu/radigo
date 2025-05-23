@@ -125,9 +125,8 @@ func ConcatAACFilesAll(ctx context.Context, files []string, resourcesDir string,
 			}
 		}(tmpOutputFile.Name())
 		return err
-	} else {
-		return ConcatAACFiles(ctx, files, resourcesDir, output)
 	}
+	return ConcatAACFiles(ctx, files, resourcesDir, output)
 }
 
 func ConcatAACFiles(ctx context.Context, input []string, resourcesDir string, output string) error {
