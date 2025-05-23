@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -80,12 +79,12 @@ func ConvertAACtoMP3(ctx context.Context, input, output string) error {
 
 // ConcatAACFilesFromList concatenates files from the list of resources.
 func ConcatAACFilesFromList(ctx context.Context, resourcesDir string) (string, error) {
-	files, err := ioutil.ReadDir(resourcesDir)
+	files, err := os.ReadDir(resourcesDir)
 	if err != nil {
 		return "", err
 	}
 
-	allFilePaths := []string{}
+	var allFilePaths []string
 	for _, f := range files {
 		p := filepath.Join(resourcesDir, f.Name())
 		allFilePaths = append(allFilePaths, p)
@@ -98,7 +97,7 @@ func ConcatAACFilesFromList(ctx context.Context, resourcesDir string) (string, e
 	return concatedFile, nil
 }
 
-// ConcatAACFiles concatenate files of the same type.
+// ConcatAACFilesAll concatenate files of the same type.
 func ConcatAACFilesAll(ctx context.Context, files []string, resourcesDir string, output string) error {
 	// input is a path to a file which lists all the aac files.
 	// it may include a lot of aac file and exceed max number of file descriptor.
@@ -107,7 +106,7 @@ func ConcatAACFilesAll(ctx context.Context, files []string, resourcesDir string,
 		reducedFiles := files[:oneConcatNum]
 		restFiles := files[oneConcatNum:]
 		// reducedFiles -> reducedFiles[0]
-		tmpOutputFile, err := ioutil.TempFile(resourcesDir, "tmp-concatenated-*.aac")
+		tmpOutputFile, err := os.CreateTemp(resourcesDir, "tmp-concatenated-*.aac")
 		if err != nil {
 			fmt.Println("Failed to call ioutil.TempFile")
 			return err
@@ -118,7 +117,13 @@ func ConcatAACFilesAll(ctx context.Context, files []string, resourcesDir string,
 			return err
 		}
 		err = ConcatAACFilesAll(ctx, append([]string{tmpOutputFile.Name()}, restFiles...), resourcesDir, output)
-		defer os.Remove(tmpOutputFile.Name())
+		defer func(name string) {
+			err := os.Remove(name)
+			if err != nil {
+				fmt.Println("Failed to remove tmp file")
+				fmt.Println(err)
+			}
+		}(tmpOutputFile.Name())
 		return err
 	} else {
 		return ConcatAACFiles(ctx, files, resourcesDir, output)
@@ -126,11 +131,17 @@ func ConcatAACFilesAll(ctx context.Context, files []string, resourcesDir string,
 }
 
 func ConcatAACFiles(ctx context.Context, input []string, resourcesDir string, output string) error {
-	listFile, err0 := ioutil.TempFile(resourcesDir, "aac_resources")
+	listFile, err0 := os.CreateTemp(resourcesDir, "aac_resources")
 	if err0 != nil {
 		return err0
 	}
-	defer os.Remove(listFile.Name())
+	defer func(name string) {
+		err := os.Remove(name)
+		if err != nil {
+			fmt.Println("Failed to remove tmp file")
+			fmt.Println(err)
+		}
+	}(listFile.Name())
 
 	for _, f := range input {
 		p := fmt.Sprintf("file '%s'\n", f)
@@ -155,7 +166,13 @@ func ConcatAACFiles(ctx context.Context, input []string, resourcesDir string, ou
 	err = f.run(output)
 	// Remove the intermediate files right after they are concatenated into one file
 	for _, f := range input {
-		defer os.Remove(f)
+		defer func(name string) {
+			err := os.Remove(name)
+			if err != nil {
+				fmt.Println("Failed to remove tmp file")
+				fmt.Println(err)
+			}
+		}(f)
 	}
 	return err
 }
