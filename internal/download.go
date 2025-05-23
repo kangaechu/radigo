@@ -50,6 +50,7 @@ func BulkDownload(list []string, output string) error {
 }
 
 func download(link, output string) error {
+	// #nosec G107 -- trusted source, links are controlled by the application logic
 	resp, err := http.Get(link)
 	if err != nil {
 		return err
