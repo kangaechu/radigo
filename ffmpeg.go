@@ -118,11 +118,7 @@ func ConcatAACFilesAll(ctx context.Context, files []string, resourcesDir string,
 		}
 		err = ConcatAACFilesAll(ctx, append([]string{tmpOutputFile.Name()}, restFiles...), resourcesDir, output)
 		defer func(name string) {
-			err := os.Remove(name)
-			if err != nil {
-				fmt.Println("Failed to remove tmp file")
-				fmt.Println(err)
-			}
+			_ = os.Remove(name)
 		}(tmpOutputFile.Name())
 		return err
 	}
@@ -135,11 +131,7 @@ func ConcatAACFiles(ctx context.Context, input []string, resourcesDir string, ou
 		return err0
 	}
 	defer func(name string) {
-		err := os.Remove(name)
-		if err != nil {
-			fmt.Println("Failed to remove tmp file")
-			fmt.Println(err)
-		}
+		_ = os.Remove(name)
 	}(listFile.Name())
 
 	for _, f := range input {
@@ -166,11 +158,7 @@ func ConcatAACFiles(ctx context.Context, input []string, resourcesDir string, ou
 	// Remove the intermediate files right after they are concatenated into one file
 	for _, f := range input {
 		defer func(name string) {
-			err := os.Remove(name)
-			if err != nil {
-				fmt.Println("Failed to remove tmp file")
-				fmt.Println(err)
-			}
+			_ = os.Remove(name)
 		}(f)
 	}
 	return err
