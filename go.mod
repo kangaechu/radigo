@@ -5,7 +5,7 @@ go 1.24.3
 require (
 	github.com/briandowns/spinner v1.23.2
 	github.com/mitchellh/cli v1.1.5
-	github.com/olekukonko/tablewriter v1.0.6
+	github.com/olekukonko/tablewriter v1.0.7
 	github.com/yyoshiki41/go-radiko v0.9.0
 )
 
